@@ -1,68 +1,6 @@
 import { v4 } from 'https://deno.land/std/uuid/mod.ts'
-import { Artist } from '../types.ts'
-
-let artists: Artist[] = [
-    {
-        id: '1',
-        name: 'Davido',
-        genre: 'Afrobeats',
-        followers: '20m'
-    },
-    {
-        id: '2',
-        name: 'Chris Brown',
-        genre: 'Pop',
-        followers: '65m'
-    },
-    {
-        id: '3',
-        name: 'Wizkid',
-        genre: 'Afrobeats',
-        followers: '11m'
-    },
-    {
-        id: '4',
-        name: 'Tiwa Savage',
-        genre: 'Afrobeats',
-        followers: '10.5m'
-    },
-    {
-        id: '5',
-        name: 'Yemi Alade',
-        genre: 'Afrobeats',
-        followers: '11m'
-    },
-    {
-        id: '6',
-        name: 'Drake',
-        genre: 'Hip Hop',
-        followers: '70m'
-    },
-    {
-        id: '7',
-        name: '6ix9ine',
-        genre: 'Hip Hop',
-        followers: '68m'
-    },
-    {
-        id: '8',
-        name: 'Lil Baby',
-        genre: 'Hip Hop',
-        followers: '15m'
-    },
-    {
-        id: '9',
-        name: 'Summer Walker',
-        genre: 'R & B',
-        followers: '5m'
-    },
-    {
-        id: '10',
-        name: 'Rihanna',
-        genre: 'R & B',
-        followers: '150m'
-    }
-]
+import { artists } from '../data.ts';
+import { Artist } from '../types.ts';
 
 // @desc Get all Artists
 // @route GET /api/v1/artists
@@ -127,13 +65,13 @@ const updateArtist = async ({ params, request, response }: { params:{id: string}
         const body = await request.body()
         const updateArtist: {name?: string; genre?: string; followers?:string} = body.value
 
-        artists = artists.map(artist => artist.id === params.id ? {...artist, ...updateArtist} : artist)
+        const updatedArtists = artists.map(artist => artist.id === params.id ? {...artist, ...updateArtist} : artist)
 
         response.status = 200;
         response.body = {
             success: true,
             message: "Artist updated successfully",
-            data: artists
+            data: updatedArtists
         }
     } else {
         response.status = 404
@@ -152,7 +90,8 @@ const deleteArtist = ({ params, response }: { params: {id:string}, response: any
         response.status = 200
         response.body = {
             success: true,
-            message: "Artist removed successfully"
+            message: "Artist removed successfully",
+            data: artist
         }
     } else {
         response.status = 404
