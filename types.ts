@@ -3,4 +3,5 @@ export interface Artist {
     name: string;
     genre: string;
     followers: string;
+    net_worth: number;
 }
